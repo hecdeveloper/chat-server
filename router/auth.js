@@ -31,6 +31,6 @@ router.post(
 );
 
 //renew token
-router.post("/renew", renewToken);
+router.get("/renew", renewToken);
 
 module.exports = router;
