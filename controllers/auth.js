@@ -5,14 +5,14 @@ const genJWT = require("../helpers/jwt");
 //createuser
 const createUser = async (req, res = response) => {
   try {
-    const {email, password } = req.body;
+    const { email, password } = req.body;
 
     const emailExist = await User.findOne({ email });
     if (emailExist) {
-        return res.status(400).json({
-            ok: false,
-            msg: "Email already exist"
-        })
+      return res.status(400).json({
+        ok: false,
+        msg: "Email already exist",
+      });
     }
     const user = new User(req.body);
     //encryptpassword
@@ -25,28 +25,53 @@ const createUser = async (req, res = response) => {
     //generate token
     const token = await genJWT(user.id);
 
-
-    res.json({user});
+    res.json({ ok: true, user, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({
-        ok: false,
-        msg: "check with the admin"
-    })
+      ok: false,
+      msg: "check with the admin",
+    });
   }
 };
 
 //login
 const login = async (req, res) => {
+  const { email, password } = req.body;
 
-   const {email, password} = req.body;
+  try {
+    //veryfy if email exist
+    const userDB = await User.findOne({ email });
+    if (!userDB) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Email not found",
+      });
+    }
 
-  res.json({
-    ok: true,
-    msg: "login",
-    email,
-    password
-  });
+    //veryfy if password is correct
+    const validPassword = bcrypt.compareSync(password, userDB.password);
+    if (!validPassword) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Password incorrect",
+      });
+    }
+
+    //generate token
+    const token = await genJWT(userDB.id);
+    res.json({
+      ok: true,
+      user: userDB,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "incorrect",
+    });
+  }
 };
 
 //renw token
@@ -54,11 +79,11 @@ const renewToken = async (req, res) => {
   res.json({
     ok: true,
     msg: "renew",
-  })
+  });
 };
 
 module.exports = {
   createUser,
   login,
-  renewToken
+  renewToken,
 };
