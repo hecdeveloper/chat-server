@@ -30,6 +30,8 @@ class Server {
         // public directory
         // this.app.use( express.static( path.resolve( __dirname, '../public' ) ) );
 
+        //API endpoint
+        this.app.use( '/api/login', require( '../router/auth' ) );
         // cors
         this.app.use( cors() );
 
