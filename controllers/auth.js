@@ -1,6 +1,7 @@
 const { response } = require("express");
 const User = require("../models/user");
-
+const bcrypt = require("bcryptjs");
+const genJWT = require("../helpers/jwt");
 //createuser
 const createUser = async (req, res = response) => {
   try {
@@ -13,11 +14,16 @@ const createUser = async (req, res = response) => {
             msg: "Email already exist"
         })
     }
-    //encryptpassword
-
-    //save user in d
     const user = new User(req.body);
+    //encryptpassword
+    const salt = await bcrypt.genSaltSync(10);
+    user.password = await bcrypt.hashSync(password, salt);
+
+    //save user in db
     await user.save();
+
+    //generate token
+    const token = await genJWT(user.id);
 
 
     res.json({user});
