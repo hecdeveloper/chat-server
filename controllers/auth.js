@@ -1,7 +1,7 @@
 const { response } = require("express");
 
 //createuser
-const createUser = (req, res = response) => {
+const createUser = async (req, res = response) => {
   res.json({
     ok: true,
     msg: "new",
@@ -9,7 +9,7 @@ const createUser = (req, res = response) => {
 };
 
 //login
-const login = (req, res) => {
+const login = async (req, res) => {
   res.json({
     ok: true,
     msg: "login",
@@ -17,7 +17,7 @@ const login = (req, res) => {
 };
 
 //renw token
-const renewToken = (req, res) => {
+const renewToken = async (req, res) => {
   res.json({
     ok: true,
     msg: "renew",
