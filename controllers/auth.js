@@ -1,7 +1,7 @@
 const { response } = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-const genJWT = require("../helpers/jwt");
+const { genJWT } = require("../helpers/jwt");
 //createuser
 const createUser = async (req, res = response) => {
   try {
@@ -74,11 +74,15 @@ const login = async (req, res) => {
   }
 };
 
-//renw token
+//renew token
 const renewToken = async (req, res) => {
+    const uid = req.uid;
+  //gen new JWT
+  const token = await genJWT(uid);
   res.json({
     ok: true,
     msg: "renew",
+    token,
   });
 };
 
