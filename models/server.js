@@ -30,8 +30,9 @@ class Server {
     this.app.use(express.static(path.resolve(__dirname, "../public")));
     this.app.use(express.json());
 
-    //API endpoint
+    //API ENDPOINTS
     this.app.use("/api/login", require("../router/auth"));
+    this.app.use("/api/messages", require("../router/messages"));
     // Cors
     this.app.use(cors());
   }
