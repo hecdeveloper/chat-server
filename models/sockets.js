@@ -8,7 +8,10 @@ class Sockets {
   socketEvents() {
     // On connection
     this.io.on("connection", (socket) => {
-      // Escuchar evento: mensaje-to-server
+      //Validate JWT
+      //Knwow whar user is active
+      //Emit  all connected users
+      //socket join
       console.log("Client connected");
     });
   }
