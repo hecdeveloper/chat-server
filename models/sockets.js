@@ -15,6 +15,7 @@ class Sockets {
       //disconnect
       //emit disconnect
       //show all connected users
+      //messages status
       console.log("Client connected");
     });
   }
