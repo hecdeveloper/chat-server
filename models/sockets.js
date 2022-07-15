@@ -12,6 +12,9 @@ class Sockets {
       //Knwow whar user is active
       //Emit  all connected users
       //socket join
+      //disconnect
+      //emit disconnect
+      //show all connected users
       console.log("Client connected");
     });
   }
